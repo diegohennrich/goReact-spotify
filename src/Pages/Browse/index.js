@@ -5,7 +5,7 @@ const Browse = () => (
     <Title>Navegar</Title>
 
     <List>
-      <Playlist href="">
+      <Playlist to="/playlist/1">
         <img
           src="http://img6.bdbphotos.com/images/orig/q/c/qc6lvqy9xkiux9iv.jpg?djet1p5k"
           alt="cover"
@@ -17,7 +17,7 @@ const Browse = () => (
         </p>
       </Playlist>
 
-      <Playlist href="">
+      <Playlist to="/playlist/1">
         <img
           src="https://cps-static.rovicorp.com/3/JPG_500/MI0002/092/MI0002092395.jpg?partner=allrovi.com"
           alt="cover"
@@ -29,7 +29,7 @@ const Browse = () => (
         </p>
       </Playlist>
 
-      <Playlist href="">
+      <Playlist to="/playlist/1">
         <img
           src="https://townsquare.media/site/443/files/2015/09/Offspring-Americana1.jpg"
           alt="cover"
@@ -41,7 +41,7 @@ const Browse = () => (
         </p>
       </Playlist>
 
-      <Playlist href="">
+      <Playlist to="/playlist/1">
         <img
           src="https://www.musicrecordshop.com/media/catalog/product/0/9/093624986959_1.jpg"
           alt="cover"

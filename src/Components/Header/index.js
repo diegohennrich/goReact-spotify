@@ -1,5 +1,7 @@
 import React from 'react'
 import { Container, Search, User } from './style'
+
+console.tron.log('teste')
 const Header = () => (
   <Container>
     <Search>

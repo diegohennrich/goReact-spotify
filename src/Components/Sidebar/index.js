@@ -39,9 +39,7 @@ const Sidebar = () => (
         <li>
           <a href="#">Arquivos locais</a>
         </li>
-        <li>
-          <a href="#">Vídeos</a>
-        </li>
+       
         <li>
           <a href="#">Poscast</a>
         </li>

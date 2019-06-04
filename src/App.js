@@ -6,6 +6,7 @@ import Sidebar from './Components/Sidebar'
 import Player from './Components/Player'
 import Header from './Components/Header'
 import Routes from './Routes'
+import './config/reactotron'
 
 function App () {
   return (
