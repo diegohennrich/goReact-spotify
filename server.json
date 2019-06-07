@@ -2,7 +2,7 @@
     "playlists": [
         {
             "id": 1,
-            "title": "Saudade das antigas",
+            "title": "Das antigas",
             "description": "Músicas antigas que vão te lembrar dos melhores momentos.",
             "thumbnail": "https://s3-sa-east-1.amazonaws.com/gonative/linkin_park.jpg"
         },
