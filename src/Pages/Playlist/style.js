@@ -1,7 +1,20 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+import { Spinner } from '../../Components/Loading/style'
 
 export const Container = styled.div`
   margin-top: 30px;
+
+  ${Spinner} {
+    height: 40px;
+  }
+  ${props =>
+    props.loading &&
+    css`
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    `}
 `
 
 export const Album = styled.header`

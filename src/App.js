@@ -21,6 +21,7 @@ function App () {
             <Sidebar />
             <Content>
               <Header />
+
               <Routes />
             </Content>
           </Container>

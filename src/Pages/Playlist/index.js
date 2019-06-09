@@ -10,7 +10,20 @@ import { Creators as PlaylistDetailsActions } from '../../store/ducks/playlistDe
 
 class Playlist extends Component {
   componentDidMount() {
+    console.log('entrou no didMount')
+    console.log(this.props.match.params)
     this.loadSongs()
+  }
+
+  componentDidUpdate(prevProps) {
+    console.log('entrou no update')
+    console.log(prevProps.match.params)
+    console.log(this.props.match.params)
+    if (prevProps.match.params.id !== this.props.match.params.id) {
+      // chama novamente o carregamento da interna
+
+      this.loadSongs()
+    }
   }
 
   loadSongs = () => {
@@ -19,7 +32,7 @@ class Playlist extends Component {
   }
   renderSongs = () => {
     const playlist = this.props.playlistDetails.data
-    console.log('meu i: ', playlist)
+    console.log('playlist.songs: ', playlist.songs)
     return (
       <Container>
         <Album>
@@ -35,23 +48,25 @@ class Playlist extends Component {
         </Album>
         <Songlist cellPadding={0} cellSpacing={0}>
           <thead>
-            <th />
-            <th>Título</th>
-            <th>Artista</th>
-            <th>Álbum</th>
-            <th>
-              <img src={ClockIcon} alt="time" />
-            </th>
+            <tr>
+              <th />
+              <th>Título</th>
+              <th>Artista</th>
+              <th>Álbum</th>
+              <th>
+                <img src={ClockIcon} alt="time" />
+              </th>
+            </tr>
           </thead>
 
           <tbody>
             {!playlist.songs ? (
               <tr>
-                <td colspan={5}>Nenhuma música encontrada</td>
+                <td colSpan={5}>Nenhuma música encontrada</td>
               </tr>
             ) : (
               playlist.songs.map(s => (
-                <tr>
+                <tr key={s.id}>
                   <td>
                     <img src={PlusIcon} alt="add" />
                   </td>
@@ -69,7 +84,7 @@ class Playlist extends Component {
   }
   render() {
     return this.props.playlistDetails.loading ? (
-      <Container>
+      <Container loading>
         <Loading />
       </Container>
     ) : (
