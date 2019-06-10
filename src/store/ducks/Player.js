@@ -28,7 +28,9 @@ export default function Player (state = INITIAL_STATE, action) {
         ...state,
         currentSong: action.payload.currentSong,
         list: action.payload.list,
-        status: Sound.status.PLAYING
+        status: Sound.status.PLAYING,
+        positionShown: null,
+        position: null
       }
     case Types.PLAY:
       return {
@@ -50,7 +52,8 @@ export default function Player (state = INITIAL_STATE, action) {
           ...state,
           currentSong: prev,
           status: Sound.status.PLAYING,
-          position: 0
+          position: 0,
+          positionShown: 0
         }
       }
       return state
@@ -66,7 +69,8 @@ export default function Player (state = INITIAL_STATE, action) {
           ...state,
           currentSong: next,
           status: Sound.status.PLAYING,
-          position: 0
+          position: 0,
+          positionShown: 0
         }
       }
       return state
