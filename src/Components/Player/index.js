@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import Slider from 'rc-slider'
 import { Container, Current, Volume, Progress, Controls, Time } from './styles'
 import VolumeIcon from '../../assets/images/volume.svg'
@@ -8,18 +8,51 @@ import PlayIcon from '../../assets/images/play.svg'
 import PauseIcon from '../../assets/images/pause.svg'
 import ForwardIcon from '../../assets/images/forward.svg'
 import RepeatIcon from '../../assets/images/repeat.svg'
-const Player = () => (
-  <Container>
-    <Current>
-      <img
-        src="http://img6.bdbphotos.com/images/orig/q/c/qc6lvqy9xkiux9iv.jpg?djet1p5k"
-        alt="Aerosmith Cover"
-      />
+import Sound from 'react-sound'
 
-      <div>
-        <span>Amazing</span>
-        <small>Aerosmith</small>
-      </div>
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { Creators as PlayerActions } from '../../store/ducks/Player'
+
+const Player = ({
+  player,
+  play,
+  pause,
+  next,
+  prev,
+  playing,
+  position,
+  duration,
+  handlePosition,
+  setPosition,
+  positionShown,
+  progress
+}) => (
+  <Container>
+    {!!player.currentSong && (
+      <Sound
+        url={player.currentSong.file}
+        playStatus={player.status}
+        onFinishedPlaying={next}
+        onPlaying={playing}
+        position={player.position}
+      />
+    )}
+
+    <Current>
+      {!!player.currentSong && (
+        <Fragment>
+          <img
+            src={player.currentSong.thumbnail}
+            alt={player.currentSong.author}
+          />
+
+          <div>
+            <span>{player.currentSong.title}</span>
+            <small>{player.currentSong.author}</small>
+          </div>
+        </Fragment>
+      )}
     </Current>
 
     <Progress>
@@ -27,16 +60,21 @@ const Player = () => (
         <button>
           <img src={ShuffleIcon} alt="Shuffle" />
         </button>
-        <button>
+        <button onClick={prev}>
           <img src={BackwardIcon} alt="Backward" />
         </button>
-        <button>
-          <img src={PlayIcon} alt="Play" />
-        </button>
-        {/* <button>
-          <img src={PauseIcon} alt="Pause" />
-        </button> */}
-        <button>
+
+        {!!player.status && player.status === Sound.status.PLAYING ? (
+          <button onClick={pause}>
+            <img src={PauseIcon} alt="Pause" />
+          </button>
+        ) : (
+          <button onClick={play}>
+            <img src={PlayIcon} alt="Play" />
+          </button>
+        )}
+
+        <button onClick={next}>
           <img src={ForwardIcon} alt="Forward" />
         </button>
         <button>
@@ -44,13 +82,17 @@ const Player = () => (
         </button>
       </Controls>
       <Time>
-        <span>00:00</span>
+        <span>{positionShown || position}</span>
         <Slider
           railStyle={{ background: '#404040', borderRadius: 10 }}
           trackStyle={{ background: '#1ED760' }}
           handleStyle={{ borderRadius: 10 }}
+          max={1000}
+          onChange={value => handlePosition(value / 1000)}
+          onAfterChange={value => setPosition(value / 1000)}
+          value={progress}
         />
-        <span>3:56</span>
+        <span>{duration}</span>
       </Time>
     </Progress>
 
@@ -66,4 +108,32 @@ const Player = () => (
   </Container>
 )
 
-export default Player
+function formatTime (time) {
+  if (!time) return null
+  let seconds = parseInt((time / 1000) % 60, 10)
+  const minutes = parseInt((time / (1000 * 60)) % 60, 10)
+
+  seconds = seconds < 10 ? `0${seconds}` : seconds
+
+  return `${minutes}:${seconds}`
+}
+const mapStateToProps = state => ({
+  player: state.Player,
+  position: formatTime(state.Player.position),
+  duration: formatTime(state.Player.duration),
+  positionShown: formatTime(state.Player.positionShown),
+  progress:
+    parseInt(
+      (state.Player.positionShown || state.Player.position) *
+        (1000 / state.Player.duration),
+      10
+    ) || 0
+})
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(PlayerActions, dispatch)
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Player)

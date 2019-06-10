@@ -7,6 +7,7 @@ export const Container = styled.div`
   justify-content: space-between;
 `
 export const Current = styled.div`
+  width: 200px;
   display: flex;
   align-items: center;
 
