@@ -9,7 +9,8 @@ export const Types = {
   PREV: 'playlist/PREV',
   PLAYING: 'playlist/PLAYING',
   HANDLE_POSITION: 'playlist/HANDLE_POSITION',
-  SET_POSITION: 'playlist/SET_POSITION'
+  SET_POSITION: 'playlist/SET_POSITION',
+  SET_VOLUME: 'playlist/SET_VOLUME'
 }
 
 const INITIAL_STATE = Immutable({
@@ -18,7 +19,8 @@ const INITIAL_STATE = Immutable({
   status: Sound.status.PAUSED,
   position: null,
   duration: null,
-  positionShown: null
+  positionShown: null,
+  volume: 100
 })
 
 export default function Player (state = INITIAL_STATE, action) {
@@ -89,8 +91,12 @@ export default function Player (state = INITIAL_STATE, action) {
     case Types.SET_POSITION:
       return {
         ...state,
-        position: state.duration * action.payload.percent
+        position: state.duration * action.payload.percent,
+        positionShown: null
       }
+
+    case Types.SET_VOLUME:
+      return { ...state, volume: action.payload.volume }
     default:
       return state
   }
@@ -125,5 +131,9 @@ export const Creators = {
   setPosition: percent => ({
     type: Types.SET_POSITION,
     payload: { percent }
+  }),
+  setVolume: volume => ({
+    type: Types.SET_VOLUME,
+    payload: { volume }
   })
 }
